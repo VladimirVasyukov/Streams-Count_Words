@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 /**
  * 08 - Java Lambdas & Streams - Vladimir_Vasyukov
- * Class for working with words
  */
 
 public class Words {
