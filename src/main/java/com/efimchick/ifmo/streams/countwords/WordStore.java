@@ -17,9 +17,8 @@ public class WordStore implements Comparable<WordStore> {
         return count;
     }
 
-    public WordStore incrementCount() {
+    public void incrementCount() {
         count++;
-        return this;
     }
 
     @Override

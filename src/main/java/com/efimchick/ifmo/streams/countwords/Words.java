@@ -2,8 +2,6 @@ package com.efimchick.ifmo.streams.countwords;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,23 +19,29 @@ public class Words {
     private static final int MIN_WORD_COUNT = 10;
 
     public String countWords(List<String> lines) {
-        Map<String, WordStore> map = new HashMap<>();
         String[] strings = lines.toString().replaceAll(REGEX_DELIMITER, EMPTY_SYM).split(TEXT_FILE_DELIMITER);
         List<String> lowerCaseList = Arrays.stream(strings)
+            .filter(s -> s.length() >= MIN_WORD_LENGTH)
             .map(String::toLowerCase)
             .collect(Collectors.toList());
-        lowerCaseList
-            .forEach(s -> map.put(s, map.containsKey(s)
-                ? map.get(s).incrementCount() : new WordStore(s)));
+        Map<String, WordStore> map = lowerCaseList.stream()
+            .collect(Collectors.toMap(
+                k -> k,
+                WordStore::new,
+                (wordStore1, wordStore2) -> mergeWordCounts(wordStore1)));
         List<WordStore> wordStoreList = new ArrayList<>(map.values());
-        Collections.sort(wordStoreList);
         return applyFilters(wordStoreList);
+    }
+
+    public WordStore mergeWordCounts(WordStore wordStore1) {
+        wordStore1.incrementCount();
+        return wordStore1;
     }
 
     public String applyFilters(List<WordStore> list) {
         return list.stream()
             .filter(o -> o.getCount() >= MIN_WORD_COUNT)
-            .filter(o -> o.getValue().length() >= MIN_WORD_LENGTH)
+            .sorted()
             .map(Object::toString)
             .collect(Collectors.joining("\n"));
     }
