@@ -20,11 +20,9 @@ public class Words {
 
     public String countWords(List<String> lines) {
         String[] strings = lines.toString().replaceAll(REGEX_DELIMITER, EMPTY_SYM).split(TEXT_FILE_DELIMITER);
-        List<String> lowerCaseList = Arrays.stream(strings)
+        Map<String, WordStore> map = Arrays.stream(strings)
             .filter(s -> s.length() >= MIN_WORD_LENGTH)
             .map(String::toLowerCase)
-            .collect(Collectors.toList());
-        Map<String, WordStore> map = lowerCaseList.stream()
             .collect(Collectors.toMap(
                 k -> k,
                 WordStore::new,
