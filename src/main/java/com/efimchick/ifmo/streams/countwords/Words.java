@@ -2,6 +2,7 @@ package com.efimchick.ifmo.streams.countwords;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class Words {
         return wordStore1;
     }
 
-    public String applyFilters(List<WordStore> list) {
+    public String applyFilters(Collection<WordStore> list) {
         return list.stream()
             .filter(o -> o.getCount() >= MIN_WORD_COUNT)
             .sorted()

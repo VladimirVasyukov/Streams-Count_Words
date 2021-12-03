@@ -23,7 +23,7 @@ public class WordStore implements Comparable<WordStore> {
 
     @Override
     public int compareTo(WordStore o) {
-        int compareCount = -(count.compareTo(o.getCount()));
+        int compareCount = o.getCount().compareTo(count);
         return compareCount == 0 ? value.compareTo(o.getValue()) : compareCount;
     }
 
